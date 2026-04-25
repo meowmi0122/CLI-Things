@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+    }
+
+    header {
+      padding: 16px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 1px solid;
+    }
+
+    #app {
+      padding: 20px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #0f0f0f;
+        color: white;
+      }
+
+      header {
+        background: #1f1f1f;
+        border-bottom-color: #333;
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      body {
+        background: white;
+        color: black;
+      }
+
+      header {
+        background: #f2f2f2;
+        border-bottom-color: #ddd;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header id="title"></header>
+  <div id="app"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <script>
+    fetch('README.md')
+      .then(r => r.text())
+      .then(md => {
+
+        const match = md.match(/^# (.*)$/m);
+        const title = match ? match[1] : '';
+
+        document.title = title;
+        document.getElementById('title').textContent = title;
+
+        document.getElementById('app').innerHTML = marked.parse(md);
+      });
+  </script>
+
+</body>
+</html>
