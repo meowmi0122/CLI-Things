@@ -1,5 +1,7 @@
 $ErrorActionPreference = "SilentlyContinue"
 
+$spinner = @("⠋","⠙","⠹","⠸","⠼","⠴","⠦","⠧","⠇","⠏")
+
 function Show-Menu {
     param([int]$index)
 
@@ -10,15 +12,25 @@ function Show-Menu {
     Write-Host ""
 
     if ($index -eq 0) {
-        Write-Host "> YES"
-        Write-Host "  NO"
+        Write-Host "> install"
+        Write-Host "  no"
     } else {
-        Write-Host "  YES"
-        Write-Host "> NO"
+        Write-Host "  install"
+        Write-Host "> no"
     }
 
     Write-Host ""
     Write-Host "Use ↑ ↓ to move, Enter to select"
+}
+
+function Show-Spinner($msg) {
+    for ($i = 0; $i -lt 20; $i++) {
+        foreach ($s in $spinner) {
+            Write-Host -NoNewline "`r$s $msg"
+            Start-Sleep -Milliseconds 80
+        }
+    }
+    Write-Host ""
 }
 
 # ------------------------
@@ -28,15 +40,16 @@ wsl --status | Out-Null
 if ($LASTEXITCODE -ne 0) {
     Write-Host "[X] WSL not installed"
     Write-Host "Installing WSL..."
+    Show-Spinner "installing WSL"
     wsl --install
     Write-Host ""
-    Write-Host "Restart system and run again"
+    Write-Host "[OK] Done. Restart required."
     Pause
     exit
 }
 
 Write-Host "[OK] WSL detected"
-Start-Sleep -Seconds 1
+Start-Sleep -Milliseconds 500
 
 # ------------------------
 # Check Ubuntu
@@ -69,16 +82,17 @@ while ($true) {
 # ------------------------
 # Action
 # ------------------------
+Clear-Host
+
 if ($index -eq 0) {
-    Clear-Host
-    Write-Host "[*] Installing Ubuntu via WSL..."
+    Write-Host "[*] installing Ubuntu..."
+    Show-Spinner "downloading Ubuntu via WSL"
     wsl --install -d Ubuntu
     Write-Host ""
-    Write-Host "[OK] Installation completed"
-    Write-Host "First launch will require setup (username/password)"
+    Write-Host "[OK] installation completed"
+    Write-Host "first setup will ask username/password"
 } else {
-    Write-Host ""
-    Write-Host "[X] Cancelled"
+    Write-Host "[X] cancelled"
 }
 
 Pause
