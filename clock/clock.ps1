@@ -12,31 +12,25 @@ $NUM = @{
 ":" = @("      ","  ██  ","  ██  ","      ","  ██  ","  ██  ","      ")
 }
 
-function Show-Clock {
-    while ($true) {
-        Clear-Host
+while ($true) {
+    Clear-Host
 
-        $t = (Get-Date).ToString("HH:mm:ss")
+    $t = (Get-Date).ToString("HH:mm:ss")
 
-        $lines = @("","","","","","","")
+    $lines = @("","","","","","","")
 
-        foreach ($c in $t.ToCharArray()) {
+    foreach ($c in $t.ToCharArray()) {
 
-        
-            if (-not $NUM.ContainsKey($c)) {
-                $glyph = @("      ","      ","      ","      ","      ","      ","      ")
-            } else {
-                $glyph = $NUM[$c]
-            }
-
-            for ($i = 0; $i -lt 7; $i++) {
-                $lines[$i] += $glyph[$i] + "  "
-            }
+        $glyph = $NUM[$c]
+        if ($null -eq $glyph) {
+            $glyph = @("      ","      ","      ","      ","      ","      ","      ")
         }
 
-        $lines | ForEach-Object { Write-Host $_ }
-        Start-Sleep -Milliseconds 500
+        for ($i=0; $i -lt 7; $i++) {
+            $lines[$i] += $glyph[$i] + "  "
+        }
     }
-}
 
-Show-Clock
+    $lines | ForEach-Object { Write-Host $_ }
+    Start-Sleep -Milliseconds 500
+}
