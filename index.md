@@ -1,12 +1,13 @@
 # CLI-Things
+# 安裝&設定
 ### Windows
-1.安裝「**WSL**」
+1.安裝「**WSL**」在「**PowerShell**」裡
 
 ```
 powershell -c "irm https://raw.githubusercontent.com/meowmi0122/CLI-Things/refs/heads/main/install.ps1 | iex"
 ```
 
-2.打開「**PowerShell**」
+2.依照指示完成安裝步驟
 
 3.按下「**開放新索引標籤**」旁邊的「 **v** 」
 
