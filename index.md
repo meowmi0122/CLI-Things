@@ -7,7 +7,7 @@
 powershell -c "irm https://raw.githubusercontent.com/meowmi0122/CLI-Things/refs/heads/main/install.ps1 | iex"
 ```
 
-2.依照指示完成安裝步驟
+2.依照指示完成安裝步驟&重啟「**PowerShell**」
 
 3.按下「**開放新索引標籤**」旁邊的「 **v** 」
 
