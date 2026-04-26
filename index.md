@@ -1,5 +1,5 @@
 # CLI-Things
-# 安裝&設定
+## 安裝&設定
 ### Windows
 1.安裝「**WSL**」在「**PowerShell**」裡
 
@@ -19,3 +19,8 @@ powershell -c "irm https://raw.githubusercontent.com/meowmi0122/CLI-Things/refs/
 
 ### Mac/Linux
 只需打開「**Terminal**」不用安裝，系統自帶
+
+## 時鐘(clock)
+```
+curl -fsSL https://cli-things.vercel.app/clock/clock.sh | bash
+```
