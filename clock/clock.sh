@@ -1,5 +1,8 @@
 #!/bin/bash
 
+trap 'tput cnorm; clear; exit' INT TERM EXIT
+tput civis
+
 NUM_0=(" ████ " "█    █" "█    █" "█    █" "█    █" "█    █" " ████ ")
 NUM_1=("   █  " "  ██  " "   █  " "   █  " "   █  " "   █  " " █████")
 NUM_2=(" ████ " "     █" "     █" " ████ " "█     " "█     " "█████ ")
@@ -12,8 +15,9 @@ NUM_8=(" ████ " "█    █" "█    █" " ████ " "█    █" 
 NUM_9=(" ████ " "█    █" "█    █" " █████" "     █" "     █" " ████ ")
 NUM_COLON=("      " "  ██  " "  ██  " "      " "  ██  " "  ██  " "      ")
 
-render() {
+render_lines() {
     local text=$1
+    local out=()
     for i in {0..6}; do
         line=""
         for ((j=0; j<${#text}; j++)); do
@@ -32,22 +36,42 @@ render() {
                 :) line+="${NUM_COLON[$i]}  " ;;
             esac
         done
-        echo "$line"
+        out[$i]="$line"
     done
+    printf "%s\n" "${out[@]}"
 }
-
-echo -ne "\033[?25l"
-trap 'echo -ne "\033[?25h"; clear; exit' INT TERM EXIT
 
 while true; do
     if read -rsn1 -t 0.02 key; then
-        read -rsn10 -t 0.001 rest
-        [ -z "$rest" ] && break
+        break
     fi
+
     clear
-    render "$(date +"%H:%M:%S")"
-    sleep 1
+
+    IFS=' ' read -r rows cols <<< "$(stty size)"
+
+    mapfile -t lines < <(render_lines "$(date +"%H:%M:%S")")
+
+    h=${#lines[@]}
+    w=0
+    for l in "${lines[@]}"; do
+        (( ${#l} > w )) && w=${#l}
+    done
+
+    top=$(( (rows - h) / 2 ))
+    left=$(( (cols - w) / 2 ))
+
+    (( top < 0 )) && top=0
+    (( left < 0 )) && left=0
+
+    for ((i=0; i<top; i++)); do
+        echo
+    done
+
+    for l in "${lines[@]}"; do
+        printf "%*s%s\n" "$left" "" "$l"
+    done
 done
 
-echo -ne "\033[?25h"
+tput cnorm
 clear
