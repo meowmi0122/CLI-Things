@@ -36,9 +36,18 @@ render() {
     done
 }
 
+echo -ne "\033[?25l"
+trap 'echo -ne "\033[?25h"; clear; exit' INT TERM EXIT
+
 while true; do
+    if read -rsn1 -t 0.01; then
+        break
+    fi
     clear
     time=$(date +"%H:%M:%S")
     render "$time"
     sleep 1
 done
+
+echo -ne "\033[?25h"
+clear
