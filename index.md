@@ -15,3 +15,6 @@ powershell -c "irm https://raw.githubusercontent.com/meowmi0122/CLI-Things/refs/
 4.按下「**Ubuntu**」
 
 ![「Ubuntu」](https://raw.githubusercontent.com/meowmi0122/CLI-Things/refs/heads/main/photo2.PNG)
+
+### Mac/Linux
+不用安裝，系統自帶
