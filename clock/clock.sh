@@ -40,12 +40,12 @@ echo -ne "\033[?25l"
 trap 'echo -ne "\033[?25h"; clear; exit' INT TERM EXIT
 
 while true; do
-    if read -rsn1 -t 0.01; then
-        break
+    if read -rsn1 -t 0.02 key; then
+        read -rsn10 -t 0.001 rest
+        [ -z "$rest" ] && break
     fi
     clear
-    time=$(date +"%H:%M:%S")
-    render "$time"
+    render "$(date +"%H:%M:%S")"
     sleep 1
 done
 
