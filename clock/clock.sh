@@ -15,9 +15,8 @@ NUM_8=(" ████ " "█    █" "█    █" " ████ " "█    █" 
 NUM_9=(" ████ " "█    █" "█    █" " █████" "     █" "     █" " ████ ")
 NUM_COLON=("      " "  ██  " "  ██  " "      " "  ██  " "  ██  " "      ")
 
-render_lines() {
+render() {
     local text=$1
-    local out=()
     for i in {0..6}; do
         line=""
         for ((j=0; j<${#text}; j++)); do
@@ -36,41 +35,19 @@ render_lines() {
                 :) line+="${NUM_COLON[$i]}  " ;;
             esac
         done
-        out[$i]="$line"
+        echo "$line"
     done
-    printf "%s\n" "${out[@]}"
 }
 
 while true; do
-    if read -rsn1 -t 0.02 key; then
+    clear
+    render "$(date +"%H:%M:%S")"
+    sleep 1
+
+    read -rsn1 -t 0.001 key
+    if [ $? -eq 0 ]; then
         break
     fi
-
-    clear
-
-    IFS=' ' read -r rows cols <<< "$(stty size)"
-
-    mapfile -t lines < <(render_lines "$(date +"%H:%M:%S")")
-
-    h=${#lines[@]}
-    w=0
-    for l in "${lines[@]}"; do
-        (( ${#l} > w )) && w=${#l}
-    done
-
-    top=$(( (rows - h) / 2 ))
-    left=$(( (cols - w) / 2 ))
-
-    (( top < 0 )) && top=0
-    (( left < 0 )) && left=0
-
-    for ((i=0; i<top; i++)); do
-        echo
-    done
-
-    for l in "${lines[@]}"; do
-        printf "%*s%s\n" "$left" "" "$l"
-    done
 done
 
 tput cnorm
