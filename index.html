@@ -3,6 +3,18 @@
 <head>
   <meta charset="UTF-8">
 
+  <link rel="icon" type="image/png" href="Bash.PNG">
+  <link rel="apple-touch-icon" href="Bash.PNG">
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CLI Things">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       margin: 0;
@@ -58,13 +70,11 @@
     fetch('index.md')
       .then(r => r.text())
       .then(md => {
-
         const match = md.match(/^# (.*)$/m);
         const title = match ? match[1] : '';
 
         document.title = title;
         document.getElementById('title').textContent = title;
-
         document.getElementById('app').innerHTML = marked.parse(md);
       });
   </script>
