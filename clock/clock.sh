@@ -36,20 +36,9 @@ render() {
     done
 }
 
-clock() {
-    while true; do
-        clear
-        time=$(date +"%H:%M:%S")
-        render "$time"
-        sleep 1
-    done
-}
-
-case "$1" in
-    clock)
-        clock
-        ;;
-    *)
-        echo "Usage: cli clock"
-        ;;
-esac
+while true; do
+    clear
+    time=$(date +"%H:%M:%S")
+    render "$time"
+    sleep 1
+done
