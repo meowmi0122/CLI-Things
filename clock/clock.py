@@ -17,18 +17,14 @@ NUMS = {
     ":": ["      ", "  ██  ", "  ██  ", "      ", "  ██  ", "  ██  ", "      "]
 }
 
-def clear():
-    os.system("cls" if os.name == "nt" else "clear")
-
-def render_lines(text):
+def render(text):
     lines = [""] * 7
     for c in text:
-        if c in NUMS:
-            for i in range(7):
-                lines[i] += NUMS[c][i] + "  "
+        for i in range(7):
+            lines[i] += NUMS[c][i] + "  "
     return lines
 
-def center_print(lines):
+def draw_center(lines):
     size = shutil.get_terminal_size()
     rows, cols = size.lines, size.columns
 
@@ -38,17 +34,23 @@ def center_print(lines):
     top = max((rows - h) // 2, 0)
     left = max((cols - w) // 2, 0)
 
+    os.system("clear")
+
     print("\n" * top, end="")
-    for line in lines:
-        print(" " * left + line)
+    for l in lines:
+        print(" " * left + l)
 
 def clock():
     while True:
-        clear()
         now = datetime.now().strftime("%H:%M:%S")
-        lines = render_lines(now)
-        center_print(lines)
+        lines = render(now)
+        draw_center(lines)
         time.sleep(1)
 
 if __name__ == "__main__":
-    clock()
+    print("\033[?25l", end="")  # hide cursor
+    try:
+        clock()
+    finally:
+        print("\033[?25h", end="")  # restore cursor
+        os.system("clear")
