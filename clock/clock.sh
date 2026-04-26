@@ -40,14 +40,34 @@ render() {
 }
 
 while true; do
+    IFS=' ' read -r rows cols <<< "$(stty size)"
+
+    mapfile -t lines < <(render "$(date +"%H:%M:%S")")
+
+    h=${#lines[@]}
+    w=0
+    for l in "${lines[@]}"; do
+        (( ${#l} > w )) && w=${#l}
+    done
+
+    top=$(( (rows - h) / 2 ))
+    left=$(( (cols - w) / 2 ))
+
+    (( top < 0 )) && top=0
+    (( left < 0 )) && left=0
+
     clear
-    render "$(date +"%H:%M:%S")"
+    for ((i=0; i<top; i++)); do
+        echo
+    done
+
+    for l in "${lines[@]}"; do
+        printf "%*s%s\n" "$left" "" "$l"
+    done
+
     sleep 1
 
-    read -rsn1 -t 0.001 key
-    if [ $? -eq 0 ]; then
-        break
-    fi
+    read -rsn1 -t 0.001 key && break
 done
 
 tput cnorm
