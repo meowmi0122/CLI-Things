@@ -34,7 +34,7 @@ powershell -c "irm https://raw.githubusercontent.com/meowmi0122/CLI-Things/refs/
 ## 時鐘(clock)
 **Terminal**
 ```
-curl -fsSL https://cli-things.vercel.app/clock/clock.sh | bash
+curl -fsSL https://raw.githubusercontent.com/meowmi0122/CLI-Things/refs/heads/main/clock/clock.sh | bash
 ```  
 **Git**  
   
