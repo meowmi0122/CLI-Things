@@ -36,6 +36,6 @@ powershell -c "irm https://raw.githubusercontent.com/meowmi0122/CLI-Things/refs/
 ```
 curl -fsSL https://raw.githubusercontent.com/meowmi0122/CLI-Things/refs/heads/main/clock/clock.sh | bash
 ```  
-**Git**  
+**Git**(建議)
   
 [下載檔案](https://cli-things.vercel.app/clock/clock.sh)
